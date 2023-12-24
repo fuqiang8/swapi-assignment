@@ -60,7 +60,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNumber_whenStarshipCrewDoesNotContainsComma() {
+    void getStarshipCrew_shouldReturnCrewAsNumber_givenStarshipCrewDoesNotContainsComma() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(new Starship("starship", "", "", "123"));
 
@@ -69,7 +69,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNumber_whenStarshipCrewContainsComma() {
+    void getStarshipCrew_shouldReturnCrewAsNumber_givenStarshipCrewContainsComma() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(new Starship("starship","", "", "123,456"));
 
@@ -78,7 +78,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsZero_whenStarshipCrewIsEmpty() {
+    void getStarshipCrew_shouldReturnCrewAsZero_givenStarshipCrewIsEmpty() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(new Starship("starship","", "", ""));
 
@@ -87,7 +87,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsZero_whenStarshipCrewIsNull() {
+    void getStarshipCrew_shouldReturnCrewAsZero_givenStarshipCrewIsNull() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(new Starship("starship","", "", null));
 
@@ -96,7 +96,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNegativeOne_whenStarshipIsNull() {
+    void getStarshipCrew_shouldReturnCrewAsNegativeOne_givenStarshipIsNull() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(null);
 
