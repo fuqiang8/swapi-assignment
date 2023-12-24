@@ -1,6 +1,6 @@
 package com.partior.swapiassignment.service;
 
-import com.partior.swapiassignment.dto.People;
+import com.partior.swapiassignment.dto.Planet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,42 +15,42 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PeopleServiceTest {
+class PlanetServiceTest {
     @InjectMocks
-    PeopleService peopleService;
+    PlanetService planetService;
     @Mock
     SWAPIWebClientService webClientService;
 
     @Test
-    void searchExact_shouldReturnStarship_givenExactMatchExists() {
-        when(webClientService.searchPeople(anyString()))
+    void searchExact_shouldReturnPlanet_givenExactMatchExists() {
+        when(webClientService.searchPlanets(anyString()))
                 .thenReturn(List.of(
-                        new People("name1", null, ""),
-                        new People("name2", null, "")
+                        new Planet("planet1", null),
+                        new Planet("planet2", null)
                 ));
 
-        People people = peopleService.searchExact("name2");
-        assertEquals("name2", people.name());
+        Planet planet = planetService.searchExact("planet2");
+        assertEquals("planet2", planet.name());
     }
 
     @Test
     void searchExact_shouldReturnNull_givenNoExactMatchExists() {
-        when(webClientService.searchPeople(anyString()))
+        when(webClientService.searchPlanets(anyString()))
                 .thenReturn(List.of(
-                        new People("name1", null, ""),
-                        new People("name23", null, "")
+                        new Planet("planet1", null),
+                        new Planet("planet23", null)
                 ));
 
-        People people = peopleService.searchExact("name2");
-        assertNull(people);
+        Planet planet = planetService.searchExact("planet2");
+        assertNull(planet);
     }
 
     @Test
     void searchExact_shouldReturnNull_givenEmptyList() {
-        when(webClientService.searchPeople(anyString()))
+        when(webClientService.searchPlanets(anyString()))
                 .thenReturn(List.of());
 
-        People people = peopleService.searchExact("name2");
-        assertNull(people);
+        Planet planet = planetService.searchExact("planet2");
+        assertNull(planet);
     }
 }

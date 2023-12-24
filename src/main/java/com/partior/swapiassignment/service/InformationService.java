@@ -1,17 +1,22 @@
 package com.partior.swapiassignment.service;
 
 import com.partior.swapiassignment.dto.People;
+import com.partior.swapiassignment.dto.Planet;
 import com.partior.swapiassignment.dto.Starship;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 public class InformationService {
     private final PeopleService peopleService;
     private final StarshipService starshipService;
+    private final PlanetService planetService;
 
-    public InformationService(PeopleService peopleService, StarshipService starshipService) {
+    public InformationService(PeopleService peopleService, StarshipService starshipService, PlanetService planetService) {
         this.peopleService = peopleService;
         this.starshipService = starshipService;
+        this.planetService = planetService;
     }
 
     public Starship getFirstStarshipPilotedBy(String peopleName) {
@@ -35,5 +40,17 @@ public class InformationService {
         } else {
             return Integer.parseInt(starship.crew().replaceAll(",", ""));
         }
+    }
+
+    public boolean isPeopleOnPlanet(String peopleName, String planetName) {
+        People people = peopleService.searchExact(peopleName);
+        Planet planet = planetService.searchExact(planetName);
+
+        if (people == null || planet == null || planet.residents() == null) {
+            return false;
+        }
+
+        return Arrays.stream(planet.residents())
+                .anyMatch(residentURL -> residentURL.equals(people.url()));
     }
 }

@@ -1,6 +1,7 @@
 package com.partior.swapiassignment.service;
 
 import com.partior.swapiassignment.dto.People;
+import com.partior.swapiassignment.dto.Planet;
 import com.partior.swapiassignment.dto.SWAPIOutput;
 import com.partior.swapiassignment.dto.Starship;
 import org.slf4j.Logger;
@@ -44,6 +45,13 @@ public class SWAPIWebClientService {
         String queryURI = BASE + "starships/" + SEARCH_PREFIX + starshipName;
         var returnType = new ParameterizedTypeReference<SWAPIOutput<Starship>>() {};
         SWAPIOutput<Starship> out = fetchResult(queryURI, returnType);
+        return (out == null) ? List.of() : out.results();
+    }
+
+    public List<Planet> searchPlanets(String planetName) {
+        String queryURI = BASE + "planets/" + SEARCH_PREFIX + planetName;
+        var returnType = new ParameterizedTypeReference<SWAPIOutput<Planet>>() {};
+        SWAPIOutput<Planet> out = fetchResult(queryURI, returnType);
         return (out == null) ? List.of() : out.results();
     }
 

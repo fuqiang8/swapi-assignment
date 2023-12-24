@@ -1,4 +1,4 @@
 package com.partior.swapiassignment.dto;
 
-public record People (String name, String[] starships) {
+public record People (String name, String[] starships, String url) {
 }

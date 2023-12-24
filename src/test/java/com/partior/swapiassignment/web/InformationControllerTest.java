@@ -14,6 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -32,12 +33,15 @@ class InformationControllerTest {
                 .thenReturn(new Starship("starship", "", "", ""));
         when(informationService.getStarshipCrew(anyString()))
                 .thenReturn(123);
+        when(informationService.isPeopleOnPlanet(anyString(), anyString()))
+                .thenReturn(true);
 
         ObjectNode node = informationController.getInformation();
         JsonNode starshipNode = node.get("starship");
         var output = objectMapper.convertValue(starshipNode, StarshipOutput.class);
         assertEquals("starship", output.getName());
         assertEquals(123, node.get("crew").asInt());
+        assertTrue(node.get("isLeiaOnPlanet").asBoolean());
     }
 
     @Test

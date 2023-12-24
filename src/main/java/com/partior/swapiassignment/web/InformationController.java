@@ -27,10 +27,12 @@ public class InformationController {
         JsonNode darthVaderStarship = toStarshipOutput(starship);
 
         int deathStarCrew = informationService.getStarshipCrew("Death Star");
+        boolean isLeiaOnAlderaan = informationService.isPeopleOnPlanet("Leia Organa", "Alderaan");
 
         ObjectNode obj = mapper.createObjectNode();
         obj.set("starship", darthVaderStarship);
         obj.put("crew", deathStarCrew);
+        obj.put("isLeiaOnPlanet", isLeiaOnAlderaan);
         return obj;
     }
 

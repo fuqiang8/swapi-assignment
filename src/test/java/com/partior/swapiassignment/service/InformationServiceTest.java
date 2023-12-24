@@ -1,6 +1,7 @@
 package com.partior.swapiassignment.service;
 
 import com.partior.swapiassignment.dto.People;
+import com.partior.swapiassignment.dto.Planet;
 import com.partior.swapiassignment.dto.Starship;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,8 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -21,11 +21,13 @@ class InformationServiceTest {
     PeopleService peopleService;
     @Mock
     StarshipService starshipService;
+    @Mock
+    PlanetService planetService;
 
     @Test
     void getFirstStarshipPilotedBy_shouldReturnStarship_givenPeopleHasStarship() {
         when(peopleService.searchExact(anyString()))
-                .thenReturn(new People("people", new String[] {"starshipURI"}));
+                .thenReturn(new People("people", new String[] {"starshipURI"}, ""));
         when(starshipService.getFromURI(anyString()))
                 .thenReturn(new Starship("starship", "", "", ""));
 
@@ -35,7 +37,7 @@ class InformationServiceTest {
     @Test
     void getFirstStarshipPilotedBy_shouldReturnStarship_givenPeopleHasNoStarship() {
         when(peopleService.searchExact(anyString()))
-                .thenReturn(new People("people", new String[] {}));
+                .thenReturn(new People("people", new String[] {}, ""));
 
         Starship starship = informationService.getFirstStarshipPilotedBy("people");
         assertNull(starship);
@@ -44,7 +46,7 @@ class InformationServiceTest {
     @Test
     void getFirstStarshipPilotedBy_shouldReturnNull_givenPeopleStarshipIsNull() {
         when(peopleService.searchExact(anyString()))
-                .thenReturn(new People("people", null));
+                .thenReturn(new People("people", null, ""));
 
         Starship starship = informationService.getFirstStarshipPilotedBy("people");
         assertNull(starship);
@@ -102,5 +104,75 @@ class InformationServiceTest {
 
         int crew = informationService.getStarshipCrew("starship");
         assertEquals(-1, crew);
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnTrue_givenPeopleIsOnPlanet() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, "residentURL"));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", new String[] {"residentURL"}));
+
+        assertTrue(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPeopleIsNotOnPlanet() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, "DoNotResideThere"));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", new String[] {"residentURL"}));
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPeopleURLIsNull() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, null));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", new String[] {"residentURL"}));
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPlanetHasNoResident() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, "residentURL"));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", new String[] {}));
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPlanetResidentIsNull() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, "residentURL"));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", null));
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPlanetNotFound() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(new People("people", null, "residentURL"));
+        when(planetService.searchExact(anyString()))
+                .thenReturn(null);
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
+    }
+
+    @Test
+    void isPeopleOnPlanet_shouldReturnFalse_givenPeopleNotFound() {
+        when(peopleService.searchExact(anyString()))
+                .thenReturn(null);
+        when(planetService.searchExact(anyString()))
+                .thenReturn(new Planet("planet", new String[] {"residentURL"}));
+
+        assertFalse(informationService.isPeopleOnPlanet("people", "planet"));
     }
 }
