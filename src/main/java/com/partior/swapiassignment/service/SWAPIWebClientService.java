@@ -1,5 +1,6 @@
 package com.partior.swapiassignment.service;
 
+import com.partior.swapiassignment.dto.People;
 import com.partior.swapiassignment.dto.SWAPIOutput;
 import com.partior.swapiassignment.dto.Starship;
 import org.slf4j.Logger;
@@ -17,6 +18,27 @@ public class SWAPIWebClientService {
     private final String BASE = "https://swapi.dev/api/";
     private final String SEARCH_PREFIX = "?search=";
     private final WebClient webClient = WebClient.create();
+
+    public <T> T getFromURI(String queryURI, Class<T> returnType) {
+        try {
+            return webClient
+                    .get()
+                    .uri(queryURI)
+                    .retrieve()
+                    .bodyToMono(returnType)
+                    .block();
+        } catch (WebClientException e) {
+            logger.warn("Invalid query: {}", queryURI);
+            return null;
+        }
+    }
+
+    public List<People> searchPeople(String peopleName) {
+        String queryURI = BASE + "people/" + SEARCH_PREFIX + peopleName;
+        var returnType = new ParameterizedTypeReference<SWAPIOutput<People>>() {};
+        SWAPIOutput<People> out = fetchResult(queryURI, returnType);
+        return (out == null) ? List.of() : out.results();
+    }
 
     public List<Starship> searchStarships(String starshipName) {
         String queryURI = BASE + "starships/" + SEARCH_PREFIX + starshipName;

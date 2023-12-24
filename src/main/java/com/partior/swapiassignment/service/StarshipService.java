@@ -11,6 +11,10 @@ public class StarshipService {
         this.webClientService = webClientService;
     }
 
+    public Starship getFromURI(String queryURI) {
+        return webClientService.getFromURI(queryURI, Starship.class);
+    }
+
     public Starship searchExact(String starshipName) {
         return webClientService.searchStarships(starshipName)
                 .stream()
