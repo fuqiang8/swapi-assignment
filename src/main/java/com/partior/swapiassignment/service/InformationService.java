@@ -30,7 +30,7 @@ public class InformationService {
         Starship starship = starshipService.searchExact(starshipName);
         if (starship == null) {
             return -1;
-        } else if (starship.crew() == null) {
+        } else if (starship.crew() == null || starship.crew().isBlank()) {
             return 0;
         } else {
             return Integer.parseInt(starship.crew().replaceAll(",", ""));

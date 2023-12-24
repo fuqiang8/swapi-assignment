@@ -78,7 +78,16 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNumber_whenStarshipCrewIsNull() {
+    void getStarshipCrew_shouldReturnCrewAsZero_whenStarshipCrewIsEmpty() {
+        when(starshipService.searchExact(anyString()))
+                .thenReturn(new Starship("starship","", "", ""));
+
+        int crew = informationService.getStarshipCrew("starship");
+        assertEquals(0, crew);
+    }
+
+    @Test
+    void getStarshipCrew_shouldReturnCrewAsZero_whenStarshipCrewIsNull() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(new Starship("starship","", "", null));
 
