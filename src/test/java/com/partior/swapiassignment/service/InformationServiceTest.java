@@ -35,7 +35,7 @@ class InformationServiceTest {
         assertEquals("starship", starship.name());
     }
     @Test
-    void getFirstStarshipPilotedBy_shouldReturnStarship_givenPeopleHasNoStarship() {
+    void getFirstStarshipPilotedBy_shouldReturnNull_givenPeopleHasNoStarship() {
         when(peopleService.searchExact(anyString()))
                 .thenReturn(new People("people", new String[] {}, ""));
 
