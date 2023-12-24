@@ -98,12 +98,12 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNegativeOne_givenStarshipIsNotFound() {
+    void getStarshipCrew_shouldReturnCrewAsZero_givenStarshipIsNotFound() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(null);
 
         int crew = informationService.getStarshipCrew("starship");
-        assertEquals(-1, crew);
+        assertEquals(0, crew);
     }
 
     @Test
