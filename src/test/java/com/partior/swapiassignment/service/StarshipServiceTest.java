@@ -25,23 +25,23 @@ class StarshipServiceTest {
     void searchExact_shouldReturnStarship_givenExactMatchExists() {
         when(webClientService.searchStarships(anyString()))
                 .thenReturn(List.of(
-                        new Starship("starship1", "", "","1"),
-                        new Starship("starship2", "", "","2")
+                        new Starship("starship1", "", "",""),
+                        new Starship("starship12", "", "","")
                 ));
 
-        Starship starship = starshipService.searchExact("starship2");
-        assertEquals("starship2", starship.name());
+        Starship starship = starshipService.searchExact("starship1");
+        assertEquals("starship1", starship.name());
     }
 
     @Test
     void searchExact_shouldReturnNull_givenNoExactMatchExists() {
         when(webClientService.searchStarships(anyString()))
                 .thenReturn(List.of(
-                        new Starship("starship1", "", "","1"),
-                        new Starship("starship23", "", "","23")
+                        new Starship("starship12", "", "","1"),
+                        new Starship("starship123", "", "","")
                 ));
 
-        Starship starship = starshipService.searchExact("starship2");
+        Starship starship = starshipService.searchExact("starship1");
         assertNull(starship);
     }
 
@@ -50,7 +50,7 @@ class StarshipServiceTest {
         when(webClientService.searchStarships(anyString()))
                 .thenReturn(List.of());
 
-        Starship starship = starshipService.searchExact("starship2");
+        Starship starship = starshipService.searchExact("starship1");
         assertNull(starship);
     }
 }

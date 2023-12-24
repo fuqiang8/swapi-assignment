@@ -26,22 +26,22 @@ class PeopleServiceTest {
         when(webClientService.searchPeople(anyString()))
                 .thenReturn(List.of(
                         new People("name1", null, ""),
-                        new People("name2", null, "")
+                        new People("name12", null, "")
                 ));
 
-        People people = peopleService.searchExact("name2");
-        assertEquals("name2", people.name());
+        People people = peopleService.searchExact("name1");
+        assertEquals("name1", people.name());
     }
 
     @Test
     void searchExact_shouldReturnNull_givenNoExactMatchExists() {
         when(webClientService.searchPeople(anyString()))
                 .thenReturn(List.of(
-                        new People("name1", null, ""),
-                        new People("name23", null, "")
+                        new People("name12", null, ""),
+                        new People("name123", null, "")
                 ));
 
-        People people = peopleService.searchExact("name2");
+        People people = peopleService.searchExact("name1");
         assertNull(people);
     }
 
@@ -50,7 +50,7 @@ class PeopleServiceTest {
         when(webClientService.searchPeople(anyString()))
                 .thenReturn(List.of());
 
-        People people = peopleService.searchExact("name2");
+        People people = peopleService.searchExact("name1");
         assertNull(people);
     }
 }

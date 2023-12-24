@@ -29,19 +29,19 @@ class PlanetServiceTest {
                         new Planet("planet2", null)
                 ));
 
-        Planet planet = planetService.searchExact("planet2");
-        assertEquals("planet2", planet.name());
+        Planet planet = planetService.searchExact("planet1");
+        assertEquals("planet1", planet.name());
     }
 
     @Test
     void searchExact_shouldReturnNull_givenNoExactMatchExists() {
         when(webClientService.searchPlanets(anyString()))
                 .thenReturn(List.of(
-                        new Planet("planet1", null),
-                        new Planet("planet23", null)
+                        new Planet("planet12", null),
+                        new Planet("planet123", null)
                 ));
 
-        Planet planet = planetService.searchExact("planet2");
+        Planet planet = planetService.searchExact("planet1");
         assertNull(planet);
     }
 
@@ -50,7 +50,7 @@ class PlanetServiceTest {
         when(webClientService.searchPlanets(anyString()))
                 .thenReturn(List.of());
 
-        Planet planet = planetService.searchExact("planet2");
+        Planet planet = planetService.searchExact("planet1");
         assertNull(planet);
     }
 }
