@@ -53,7 +53,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getFirstStarshipPilotedBy_shouldReturnNull_givenPeopleNotFound() {
+    void getFirstStarshipPilotedBy_shouldReturnNull_givenPeopleIsNotFound() {
         when(peopleService.searchExact(anyString()))
                 .thenReturn(null);
 
@@ -98,7 +98,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void getStarshipCrew_shouldReturnCrewAsNegativeOne_givenStarshipIsNull() {
+    void getStarshipCrew_shouldReturnCrewAsNegativeOne_givenStarshipIsNotFound() {
         when(starshipService.searchExact(anyString()))
                 .thenReturn(null);
 
@@ -157,7 +157,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void isPeopleOnPlanet_shouldReturnFalse_givenPlanetNotFound() {
+    void isPeopleOnPlanet_shouldReturnFalse_givenPlanetIsNotFound() {
         when(peopleService.searchExact(anyString()))
                 .thenReturn(new People("people", null, "residentURL"));
         when(planetService.searchExact(anyString()))
@@ -167,7 +167,7 @@ class InformationServiceTest {
     }
 
     @Test
-    void isPeopleOnPlanet_shouldReturnFalse_givenPeopleNotFound() {
+    void isPeopleOnPlanet_shouldReturnFalse_givenPeopleIsNotFound() {
         when(peopleService.searchExact(anyString()))
                 .thenReturn(null);
         when(planetService.searchExact(anyString()))
